@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Hive Hub 🍯 | BeeGPT</title>
+
+<link
+rel="icon"
+type="image/png"
+href="/static/beegpt-icon.png"
+>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --yellow: #f4d35e;
+  --cream: #fff8dc;
+  --honey: #efbd3e;
+  --dark: #25272b;
+  --panel: #32353a;
+  --border: #555960;
+  --text: #f8dc73;
+  --muted: #b9aa78;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top right,
+      #4a4325 0,
+      #25272b 32%,
+      #1c1e21 100%
+    );
+  color: var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 28px;
+  background: rgba(28,30,33,.93);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.back {
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 9px 12px;
+  border-radius: 11px;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.header-sub {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.layout {
+  width: min(1250px, 94vw);
+  margin: 28px auto 60px;
+}
+
+.hero {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(244,211,94,.13),
+      rgba(255,255,255,.03)
+    );
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  margin: 0 0 6px;
+  font-size: 34px;
+}
+
+.hero p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(330px, 1fr)
+    );
+  gap: 18px;
+}
+
+.card {
+  background: rgba(50,53,58,.9);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 19px;
+  min-width: 0;
+}
+
+.card.wide {
+  grid-column: 1 / -1;
+}
+
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+
+.card-desc {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px 11px;
+  background: #24262a;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+}
+
+textarea {
+  min-height: 75px;
+  resize: vertical;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin-top: 9px;
+  cursor: pointer;
+  background: var(--yellow);
+  color: #211b08;
+  font-weight: 750;
+}
+
+.personas {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(145px, 1fr)
+    );
+  gap: 9px;
+}
+
+.persona {
+  position: relative;
+}
+
+.persona input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.persona label {
+  height: 100%;
+  cursor: pointer;
+  display: block;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #282a2e;
+  color: var(--text);
+}
+
+.persona input:checked + label {
+  border: 2px solid var(--yellow);
+  background: #4b4325;
+}
+
+.persona-emoji {
+  font-size: 23px;
+}
+
+.persona-name {
+  display: block;
+  margin: 4px 0;
+  font-weight: 800;
+}
+
+.persona-desc {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row > * {
+  min-width: 0;
+}
+
+.row select {
+  flex: 1;
+}
+
+.list {
+  margin-top: 13px;
+}
+
+.item {
+  padding: 11px;
+  border-radius: 12px;
+  border: 1px solid #484c52;
+  background: #292b2f;
+  margin: 7px 0;
+}
+
+.item-title {
+  font-weight: 750;
+}
+
+.item-note {
+  color: var(--muted);
+  margin-top: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+
+.item-meta {
+  color: #777b82;
+  margin-top: 6px;
+  font-size: 9px;
+}
+
+.delete {
+  float: right;
+  background: transparent;
+  color: #999;
+  margin: 0;
+  padding: 2px 5px;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(230px, 1fr)
+    );
+  gap: 10px;
+}
+
+.memory-category {
+  background: #292b2f;
+  border: 1px solid #484c52;
+  border-radius: 13px;
+  padding: 12px;
+}
+
+.memory-category h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.memory {
+  padding: 6px 0;
+  font-size: 11px;
+  line-height: 1.4;
+  border-top: 1px solid #3c3f44;
+}
+
+.memory:first-of-type {
+  border-top: none;
+}
+
+.timeline {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.timeline-item {
+  border-left: 3px solid var(--honey);
+  padding: 5px 0 10px 12px;
+  margin-left: 6px;
+}
+
+.timeline-time {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.xp-number {
+  font-size: 35px;
+  font-weight: 900;
+}
+
+.level {
+  margin: 3px 0 10px;
+}
+
+.progress {
+  height: 11px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #202226;
+  border: 1px solid #4b4e53;
+}
+
+.progress > div {
+  height: 100%;
+  background:
+    linear-gradient(
+      90deg,
+      #dba92e,
+      #fff18a
+    );
+}
+
+.active-character {
+  margin: 8px 0;
+  padding: 9px;
+  border: 1px solid #d0a82d;
+  border-radius: 10px;
+  background: #403a24;
+  font-size: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #4b4325;
+  border: 1px solid #706332;
+  font-size: 10px;
+}
+
+@media (
+  max-width: 600px
+) {
+  .header {
+    padding: 13px;
+  }
+
+  .layout {
+    width: 95vw;
+    margin-top: 14px;
+  }
+
+  .hero {
+    padding: 20px;
+  }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<a
+href="/"
+class="back"
+>
+← Chat
+</a>
+
+<div>
+
+<div class="header-title">
+🍯 Hive Hub
+</div>
+
+<div class="header-sub">
+{{ user.name }}'s personal BeeGPT universe
+</div>
+
+</div>
+
+</header>
+
+
+<div class="layout">
+
+<section class="hero">
+
+<h1>
+🍯 Welcome to the Hive Hub
+</h1>
+
+<p>
+Your personal BeeGPT universe — bees, memories, plants,
+stories, experiments, characters, pins, moods and XP.
+</p>
+
+<div style="
+display:flex;
+flex-wrap:wrap;
+gap:7px;
+margin-top:15px;
+">
+
+<span class="badge">
+🐝 Bee Modes
+</span>
+
+<span class="badge">
+🧠 Memory
+</span>
+
+<span class="badge">
+🌱 Plants
+</span>
+
+<span class="badge">
+📖 Stories
+</span>
+
+<span class="badge">
+🎭 Characters
+</span>
+
+<span class="badge">
+🧪 BeeLab
+</span>
+
+<span class="badge">
+📌 Pins
+</span>
+
+<span class="badge">
+🏆 BeeXP
+</span>
+
+</div>
+
+</section>
+
+
+<div class="grid">
+
+
+<section class="card wide">
+
+<h2>
+🐝 Choose Your Bee
+</h2>
+
+<div class="card-desc">
+The selected bee changes how BeeGPT behaves in normal chats.
+</div>
+
+<form
+method="POST"
+action="/hive/persona"
+>
+
+<div class="personas">
+
+{% for key, persona in personas.items() %}
+
+<div class="persona">
+
+<input
+id="persona-{{ key }}"
+type="radio"
+name="persona"
+value="{{ key }}"
+{% if state.persona == key %}checked{% endif %}
+onchange="this.form.submit()"
+>
+
+<label for="persona-{{ key }}">
+
+<span class="persona-emoji">
+{{ persona.emoji }}
+</span>
+
+<span class="persona-name">
+{{ persona.name }}
+</span>
+
+<span class="persona-desc">
+{{ persona.description }}
+</span>
+
+</label>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</form>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+🎭 Bee Mood
+</h2>
+
+<div class="card-desc">
+A completely-for-fun mood that changes the hive vibe.
+</div>
+
+<form
+method="POST"
+action="/hive/mood"
+>
+
+<select
+name="mood"
+onchange="this.form.submit()"
+>
+
+{% for key, label in moods.items() %}
+
+<option
+value="{{ key }}"
+{% if state.mood == key %}selected{% endif %}
+>
+{{ label }}
+</option>
+
+{% endfor %}
+
+</select>
+
+</form>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+🏆 BeeXP
+</h2>
+
+<div class="xp-number">
+{{ state.xp }} XP
+</div>
+
+<div class="level">
+{{ level.emoji }}
+<strong>{{ level.title }}</strong>
+</div>
+
+<div class="progress">
+<div
+style="width:{{ level.progress }}%"
+></div>
+</div>
+
+{% if level.next %}
+
+<div class="card-desc" style="margin-top:8px">
+Next:
+{{ level.next[2] }}
+{{ level.next[1] }}
+at {{ level.next[0] }} XP
+</div>
+
+{% else %}
+
+<div class="card-desc" style="margin-top:8px">
+MAXIMUM BEE ACHIEVED. ✨
+</div>
+
+{% endif %}
+
+</section>
+
+
+<section class="card">
+
+<h2>
+🧠 Manual Memory
+</h2>
+
+<div class="card-desc">
+Tell BeeGPT something it should deliberately remember.
+</div>
+
+<form
+method="POST"
+action="/hive/memory"
+>
+
+<textarea
+name="memory"
+placeholder="Example: Sage is my favorite plant."
+required
+autocorrect="on"
+autocapitalize="sentences"
+spellcheck="true"
+></textarea>
+
+<button>
+🧠 Remember this
+</button>
+
+</form>
+
+</section>
+
+
+<section class="card wide">
+
+<h2>
+💭 What BeeGPT Remembers About Me
+</h2>
+
+<div class="card-desc">
+Your automatic memories arranged into visual categories.
+</div>
+
+{% if memory_categories %}
+
+<div class="memory-grid">
+
+{% for category, items in memory_categories.items() %}
+
+<div class="memory-category">
+
+<h3>
+{{ category }}
+</h3>
+
+{% for memory in items %}
+
+<div class="memory">
+{{ memory.text }}
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="card-desc">
+The memory hive is empty so far.
+</div>
+
+{% endif %}
+
+</section>
+
+
+<section class="card">
+
+<h2>
+🕰️ Memory Timeline
+</h2>
+
+<div class="card-desc">
+A timeline of the things BeeGPT has learned.
+</div>
+
+<div class="timeline">
+
+{% for memory in memories | reverse %}
+
+<div class="timeline-item">
+
+<div>
+{{ memory.text }}
+</div>
+
+<div class="timeline-time">
+{{ memory.get("created", "Older memory") }}
+</div>
+
+</div>
+
+{% else %}
+
+<div class="card-desc">
+Nothing in the timeline yet.
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+📌 Pinboard
+</h2>
+
+<div class="card-desc">
+Permanent little notes BeeGPT can see in chats.
+</div>
+
+<form
+method="POST"
+action="/hive/pin"
+>
+
+<textarea
+name="text"
+placeholder="Pin an idea, reminder, quote, plan..."
+required
+autocorrect="on"
+autocapitalize="sentences"
+spellcheck="true"
+></textarea>
+
+<button>
+📌 Pin it
+</button>
+
+</form>
+
+<div class="list">
+
+{% for item in state.pins | reverse %}
+
+<div class="item">
+
+<form
+method="POST"
+action="/hive/delete/pins/{{ item.id }}"
+>
+
+<button
+class="delete"
+title="Delete"
+>
+×
+</button>
+
+</form>
+
+<div class="item-note">
+{{ item.text }}
+</div>
+
+<div class="item-meta">
+{{ item.created }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+🌱 Plant Mode
+</h2>
+
+<div class="card-desc">
+Build BeeGPT's personal database of your plants.
+</div>
+
+<form
+method="POST"
+action="/hive/plant"
+>
+
+<label>
+Plant name
+</label>
+
+<input
+name="name"
+placeholder="Sage"
+required
+autocorrect="on"
+spellcheck="true"
+>
+
+<label>
+Notes
+</label>
+
+<textarea
+name="notes"
+placeholder="Propagation, watering, personality, observations..."
+autocorrect="on"
+autocapitalize="sentences"
+spellcheck="true"
+></textarea>
+
+<button>
+🌿 Add plant
+</button>
+
+</form>
+
+<div class="list">
+
+{% for item in state.plants | reverse %}
+
+<div class="item">
+
+<form
+method="POST"
+action="/hive/delete/plants/{{ item.id }}"
+>
+
+<button class="delete">
+×
+</button>
+
+</form>
+
+<div class="item-title">
+🌱 {{ item.name }}
+</div>
+
+<div class="item-note">
+{{ item.notes }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+📖 Story Worlds
+</h2>
+
+<div class="card-desc">
+Store canon facts so Story Bee can keep continuity straight.
+</div>
+
+<form
+method="POST"
+action="/hive/story"
+>
+
+<label>
+Story / world
+</label>
+
+<input
+name="world"
+placeholder="Shadow Falls"
+required
+autocorrect="on"
+spellcheck="true"
+>
+
+<label>
+Canon fact
+</label>
+
+<textarea
+name="note"
+placeholder="Olive protects Calico even when..."
+required
+autocorrect="on"
+autocapitalize="sentences"
+spellcheck="true"
+></textarea>
+
+<button>
+📖 Add to canon
+</button>
+
+</form>
+
+<div class="list">
+
+{% for item in state.story_worlds | reverse %}
+
+<div class="item">
+
+<form
+method="POST"
+action="/hive/delete/story_worlds/{{ item.id }}"
+>
+
+<button class="delete">
+×
+</button>
+
+</form>
+
+<div class="item-title">
+📚 {{ item.world }}
+</div>
+
+<div class="item-note">
+{{ item.note }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+🧪 BeeLab
+</h2>
+
+<div class="card-desc">
+Save color recipes, plant experiments, craft recipes,
+or any other gloriously questionable experiment.
+</div>
+
+<form
+method="POST"
+action="/hive/lab"
+>
+
+<label>
+Experiment name
+</label>
+
+<input
+name="name"
+placeholder="New Dove Color"
+required
+autocorrect="on"
+spellcheck="true"
+>
+
+<label>
+Formula / method
+</label>
+
+<textarea
+name="formula"
+placeholder="1 part Pigeon + 2 parts..."
+autocorrect="on"
+autocapitalize="sentences"
+spellcheck="true"
+></textarea>
+
+<label>
+Result
+</label>
+
+<textarea
+name="result"
+placeholder="What happened?"
+autocorrect="on"
+autocapitalize="sentences"
+spellcheck="true"
+></textarea>
+
+<button>
+🧪 Save experiment
+</button>
+
+</form>
+
+<div class="list">
+
+{% for item in state.lab | reverse %}
+
+<div class="item">
+
+<form
+method="POST"
+action="/hive/delete/lab/{{ item.id }}"
+>
+
+<button class="delete">
+×
+</button>
+
+</form>
+
+<div class="item-title">
+🧪 {{ item.name }}
+</div>
+
+<div class="item-note">
+{{ item.formula }}
+{% if item.result %}
+
+Result: {{ item.result }}
+{% endif %}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+🎭 Character Chat
+</h2>
+
+<div class="card-desc">
+Create a character, then make BeeGPT actually speak as them.
+</div>
+
+{% if state.active_character %}
+
+<div class="active-character">
+🎭 Currently speaking as:
+<strong>
+{{ state.active_character }}
+</strong>
+</div>
+
+{% endif %}
+
+<form
+method="POST"
+action="/hive/character/select"
+>
+
+<label>
+Talk to
+</label>
+
+<div class="row">
+
+<select name="character">
+
+<option value="">
+🐝 BeeGPT — turn Character Chat off
+</option>
+
+{% for character in state.characters %}
+
+<option
+value="{{ character.name }}"
+{% if state.active_character == character.name %}selected{% endif %}
+>
+{{ character.name }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<button>
+Switch
+</button>
+
+</div>
+
+</form>
+
+<form
+method="POST"
+action="/hive/character"
+>
+
+<label>
+New character
+</label>
+
+<input
+name="name"
+placeholder="Olive"
+required
+autocorrect="on"
+spellcheck="true"
+>
+
+<label>
+Personality / lore
+</label>
+
+<textarea
+name="personality"
+placeholder="Loyal, protective, amber eyes..."
+autocorrect="on"
+autocapitalize="sentences"
+spellcheck="true"
+></textarea>
+
+<button>
+🎭 Create character
+</button>
+
+</form>
+
+<div class="list">
+
+{% for item in state.characters %}
+
+<div class="item">
+
+<form
+method="POST"
+action="/hive/delete/characters/{{ item.id }}"
+>
+
+<button class="delete">
+×
+</button>
+
+</form>
+
+<div class="item-title">
+🎭 {{ item.name }}
+</div>
+
+<div class="item-note">
+{{ item.personality }}
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+</div>
+
+</div>
+
+</body>
+</html>

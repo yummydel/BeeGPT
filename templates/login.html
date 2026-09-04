@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+<title>BeeGPT Login 🐝</title>
+
+<link
+rel="icon"
+type="image/png"
+href="/static/beegpt-icon.png"
+>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(
+      circle at top,
+      #fff0a9,
+      #e6bf4f
+    );
+  color: #47350d;
+}
+
+.card {
+  width: min(420px, 90vw);
+  padding: 34px;
+  border-radius: 28px;
+  background: rgba(255,250,220,.94);
+  box-shadow:
+    0 22px 60px rgba(65,45,0,.18);
+  border: 1px solid #d6b54c;
+}
+
+.logo {
+  font-size: 34px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.sub {
+  text-align: center;
+  opacity: .65;
+  margin: 7px 0 28px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 14px 0 6px;
+}
+
+input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #ceb35a;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #fffdf3;
+  outline: none;
+}
+
+input:focus {
+  border-color: #705411;
+}
+
+button {
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px;
+  border: none;
+  border-radius: 13px;
+  background: #4c3b13;
+  color: #fff0a9;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.error {
+  background: #fff0dc;
+  border: 1px solid #e7b97c;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 13px;
+  font-size: 13px;
+}
+
+.bottom {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+a {
+  color: #634a0d;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="logo">
+🐝 BeeGPT
+</div>
+
+<div class="sub">
+Welcome back to the hive.
+</div>
+
+{% if error %}
+<div class="error">
+{{ error }}
+</div>
+{% endif %}
+
+<form
+method="POST"
+action="/login"
+>
+
+<label>
+Username or email
+</label>
+
+<input
+name="identifier"
+type="text"
+autocapitalize="none"
+spellcheck="false"
+required
+autofocus
+>
+
+<label>
+Password
+</label>
+
+<input
+name="password"
+type="password"
+required
+>
+
+<button type="submit">
+Buzz in 🍯
+</button>
+
+</form>
+
+<div class="bottom">
+New to the hive?
+<a href="/register">
+Create an account
+</a>
+</div>
+
+</div>
+
+</body>
+</html>

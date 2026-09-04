@@ -1,0 +1,41 @@
+# 🐝 BeeGPT private hive data
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# BeeGPT accounts / private user data
+users.json
+user_data/
+chats.json
+memory.json
+
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Backups we made while building BeeGPT
+*.before-*
+*.backup
+*.bak
+
+# Mac
+.DS_Store
+
+# Editor junk
+.vscode/
+.idea/
+
+# Logs / temp files
+*.log
+*.tmp
+
+# Extra local junk
+node_modules/
+package.json
+package-lock.json
+*.save
